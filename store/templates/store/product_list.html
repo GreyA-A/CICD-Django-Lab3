@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>AudioStore | Каталог</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">🎧 AudioStore</a>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Наш каталог</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4">
+                <div class="list-group shadow-sm">
+                    <a href="#" class="list-group-item list-group-item-action active bg-dark border-dark">Всі товари</a>
+                    {% for c in categories %}
+                        <a href="#" class="list-group-item list-group-item-action">{{ c.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    {% for p in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ p.name }}</h5>
+                                <h6 class="card-subtitle mb-3 text-success fw-bold">{{ p.price }} грн</h6>
+                                
+                                <div class="mb-2">
+                                    {% if p.has_anc %}
+                                        <span class="badge bg-secondary">ANC</span>
+                                    {% endif %}
+                                    {% if p.supports_custom_eq %}
+                                        <span class="badge bg-info text-dark">9-Band EQ</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0">
+                                <button class="btn btn-outline-dark w-100">До кошика</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-warning">Товарів поки немає. Додайте їх через адмін-панель.</div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

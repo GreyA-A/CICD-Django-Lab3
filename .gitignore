@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Віртуальне середовище
+venv/
+env/
+
+# База даних Django
+db.sqlite3

@@ -2,13 +2,14 @@ name: CI/CD Pipeline
 
 on:
   push:
-    [cite_start]branches: [ "main" ] # Автоматичний запуск при комітах у main [cite: 70]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  # Джоба 1: Збірка та тестування [cite: 69]
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,14 +18,12 @@ jobs:
         with:
           python-version: "3.13"
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
       - name: Run Pytest
         run: pytest -v
 
-  # Джоба 2: Деплой на Heroku [cite: 71]
   deploy:
-    [cite_start]needs: build # Запускається тільки після успішного білду [cite: 71]
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

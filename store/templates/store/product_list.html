@@ -8,7 +8,7 @@
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">🎧 AudioStore</a>
+            <a class="navbar-brand" href="/">🎧 AudioStore</a>
         </div>
     </nav>
 
@@ -16,10 +16,19 @@
         <h2 class="mb-4">Наш каталог</h2>
         <div class="row">
             <div class="col-md-3 mb-4">
-                <div class="list-group shadow-sm">
-                    <a href="#" class="list-group-item list-group-item-action active bg-dark border-dark">Всі товари</a>
+                <h5 class="mb-3">Категорії</h5>
+                <div class="list-group shadow-sm mb-4">
+                    <a href="/" class="list-group-item list-group-item-action {% if not current_category %}active bg-dark border-dark{% endif %}">Всі товари</a>
                     {% for c in categories %}
-                        <a href="#" class="list-group-item list-group-item-action">{{ c.name }}</a>
+                        <a href="?category={{ c.slug }}" class="list-group-item list-group-item-action {% if current_category == c.slug %}active bg-dark border-dark{% endif %}">{{ c.name }}</a>
+                    {% endfor %}
+                </div>
+
+                <h5 class="mb-3">Фільтр за характеристиками</h5>
+                <div class="list-group shadow-sm">
+                    <a href="/" class="list-group-item list-group-item-action {% if not current_feature %}active bg-dark border-dark{% endif %}">Всі мітки</a>
+                    {% for f in features %}
+                        <a href="?feature={{ f.slug }}" class="list-group-item list-group-item-action {% if current_feature == f.slug %}active bg-dark border-dark{% endif %}">{{ f.name }}</a>
                     {% endfor %}
                 </div>
             </div>
@@ -34,12 +43,9 @@
                                 <h6 class="card-subtitle mb-3 text-success fw-bold">{{ p.price }} грн</h6>
                                 
                                 <div class="mb-2">
-                                    {% if p.has_anc %}
-                                        <span class="badge bg-secondary">ANC</span>
-                                    {% endif %}
-                                    {% if p.supports_custom_eq %}
-                                        <span class="badge bg-info text-dark">9-Band EQ</span>
-                                    {% endif %}
+                                    {% for feature in p.features.all %}
+                                        <span class="badge bg-secondary me-1">{{ feature.name }}</span>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="card-footer bg-transparent border-top-0">
@@ -49,7 +55,7 @@
                     </div>
                     {% empty %}
                     <div class="col-12">
-                        <div class="alert alert-warning">Товарів поки немає. Додайте їх через адмін-панель.</div>
+                        <div class="alert alert-warning">Товарів із такими фільтрами не знайдено.</div>
                     </div>
                     {% endfor %}
                 </div>

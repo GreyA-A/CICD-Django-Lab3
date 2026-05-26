@@ -1,0 +1,36 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    [cite_start]branches: [ "main" ] # Автоматичний запуск при комітах у main [cite: 70]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # Джоба 1: Збірка та тестування [cite: 69]
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      - name: Run Pytest
+        run: pytest -v
+
+  # Джоба 2: Деплой на Heroku [cite: 71]
+  deploy:
+    [cite_start]needs: build # Запускається тільки після успішного білду [cite: 71]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.13.15
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}

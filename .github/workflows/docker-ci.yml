@@ -16,7 +16,7 @@ jobs:
 
     - name: Build and run Docker containers
       # Автоматична збірка та запуск контейнера у фоновому режимі (-d)
-      run: docker-compose up -d --build
+      run: docker compose up -d --build
 
     - name: Wait for services to be ready
       # Даємо серверу кілька секунд на повний запуск
@@ -24,4 +24,4 @@ jobs:
 
     - name: Run Pytest inside the container
       # Виконуємо тести безпосередньо у працюючому веб-контейнері
-      run: docker-compose exec -T web pytest -v
+      run: docker compose exec -T web pytest -v
